@@ -1,6 +1,29 @@
 # alx-listing-app-04
+## OVERVIEW
+This project enhances the Airbnb clone by integrating REST APIs to replace hardcoded data with dynamically fetched content. The application now connects property listings, property details, bookings, and reviews to live API endpoints, transforming it from a static prototype into a fully interactive application.
+
+## FEATURES
+- Dynamic property listings fetched from API
+
+- Property details loaded based on route parameters
+
+- Booking form submission to API endpoint
+
+- Review system with API integration
+
+- Loading states and error handling
+
+- Responsive design with Tailwind CSS
+
+  ## API Endpoints
+
+- GET /properties — Fetches the list of properties for the listing page
+- GET /properties/:id — Fetches the details of a single property based on its ID
+- POST /bookings — Submits booking details to the server
+- GET /properties/:id/reviews — Fetches the reviews of a property
 
 ## AirBnb Clone 
+
 ---
 
      Start editing🌐 Airbnb Clone - REST API Integration[https://img.shields.io/badge/Next.js-13.0%252B-black?style=for-the-badge&amp;logo=next.js](https://img.shields.io/badge/Next.js-13.0%252B-black?style=for-the-badge&amp;logo=next.js" title="" target="_blank" rel="noreferrer" style="color: rgb(59, 130, 246); transition-duration: 0.2s; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-property: box-shadow; border-radius: 6.858px; border-width: 1.6px 2.4px; border-style: solid; border-color: rgba(255, 255, 255, 0); margin-left: -3px; margin-right: -3px; position: relative;)[https://img.shields.io/badge/TypeScript-5.0%252B-blue?style=for-the-badge&amp;logo=typescript](https://img.shields.io/badge/TypeScript-5.0%252B-blue?style=for-the-badge&amp;logo=typescript" title="" target="_blank" rel="noreferrer" style="color: rgb(59, 130, 246); transition-duration: 0.2s; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-property: box-shadow; border-radius: 6.858px; border-width: 1.6px 2.4px; border-style: solid; border-color: rgba(255, 255, 255, 0); margin-left: -3px; margin-right: -3px; position: relative;)[https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&amp;logo=tailwind-css](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&amp;logo=tailwind-css" title="" target="_blank" rel="noreferrer" style="color: rgb(59, 130, 246); transition-duration: 0.2s; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-property: box-shadow; border-radius: 6.858px; border-width: 1.6px 2.4px; border-style: solid; border-color: rgba(255, 255, 255, 0); margin-left: -3px; margin-right: -3px; position: relative;)[https://img.shields.io/badge/REST-API-FF6B6B?style=for-the-badge](https://img.shields.io/badge/REST-API-FF6B6B?style=for-the-badge" title="" target="_blank" rel="noreferrer" style="color: rgb(59, 130, 246); transition-duration: 0.2s; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-property: box-shadow; border-radius: 6.858px; border-width: 1.6px 2.4px; border-style: solid; border-color: rgba(255, 255, 255, 0); margin-left: -3px; margin-right: -3px; position: relative;)A fully interactive Airbnb clone that connects to REST APIs to dynamically fetch and display property listings, details, bookings, and reviews. This project transforms a static prototype into a production-ready application with real-time data handling.✨ FeaturesDynamic Property Listings&nbsp;- Fetched from live API endpointsProperty Details Pages&nbsp;- Loaded based on route parametersBooking System&nbsp;- Form submission to API with validationReview Management&nbsp;- Submit and display user reviewsResponsive Design&nbsp;- Optimized for all devicesLoading States&nbsp;- Elegant loading indicatorsError Handling&nbsp;- Comprehensive error managementType Safety&nbsp;- Full TypeScript implementation🛠️ Tech StackFramework: Next.js 13+ with App RouterLanguage: TypeScriptHTTP Client: AxiosStyling: Tailwind CSSState Management: React Hooks (useState, useEffect)Routing: Next.js Dynamic Routing📦 InstallationClone the repositorybashgit clone https://github.com/your-username/airbnb-clone.git
