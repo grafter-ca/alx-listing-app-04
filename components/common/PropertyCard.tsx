@@ -11,6 +11,7 @@ interface PropertyCardProps {
 
 const PropertyCard: React.FC<PropertyCardProps> = ({property,key}) => {
     return (
+        
         <div className="w-full max-w-[360px] rounded-2xl shadow hover:shadow-xl transition duration-300 bg-white">
             {/* Image */}
             <div className="relative">
