@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+
+
+.bg-hero{
+    background-image: url('/assets/image 1.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* 
+ class  of free-animation
+     */
+
+     .free-animation{
+        animation: infinite;
+        animation-duration: unset;
+        animation-name: in-out-icons;
+        animation-delay: .15s;
+        animation-fill-mode: forwards;
+        animation-direction: alternate;
+        animation-play-state: running;
+     }
+
+     @keyframes in-out-icons {
+        0%{
+            color: white;
+        }
+        100%{
+            color: inherit;
+        }
+     }
