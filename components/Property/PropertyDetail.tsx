@@ -1,23 +1,32 @@
-import React, { useState, useEffect } from 'react';
+// pages/property/[id].tsx
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import Image from 'next/image';
-import { FaStar, FaBed, FaBath, FaUserFriends, FaMapMarkerAlt, FaHeart, FaShare, FaCalendarAlt, FaUser } from 'react-icons/fa';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
-import ErrorMessage from '@/components/common/ErrorMessage';
-import BookingForm from '@/components/booking/BookingForm';
-import { Property, Review } from '@/types/api';
+import Link from 'next/link';
+import { 
+  FaStar, 
+  FaBed, 
+  FaBath, 
+  FaUserFriends, 
+  FaMapMarkerAlt, 
+  FaHeart, 
+  FaShare, 
+  FaHome,
+  FaArrowLeft
+} from 'react-icons/fa';
+import { PropertyProps } from '@/interfaces';
+import BookingForm from '../booking/BookingForm';
+import OrderSummary from '../booking/OrderSummary';
 
 
 const PropertyDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   
-  const [property, setProperty] = useState<Property[] | null>(null);
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const [property, setProperty] = useState<PropertyProps | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeImage, setActiveImage] = useState(0);
   const [showAllDescription, setShowAllDescription] = useState(false);
 
   useEffect(() => {
@@ -29,13 +38,16 @@ const PropertyDetail = () => {
         setError(null);
         
         // Fetch property details
-        const propertyResponse = await axios.get(`/api/properties/${id}`);
+        const response = await axios.get(`/api/properties/${id}`);
         
-        setProperty(propertyResponse.data);
-        console.log('propertiy detal',propertyResponse.data)
-        // Fetch reviews
-        const reviewsResponse = await axios.get(`/api/properties/${id}/reviews`);
-        setReviews(reviewsResponse.data.reviews || []);
+        // Handle different response formats
+        const propertyData = response.data.data || response.data;
+        
+        if (!propertyData) {
+          throw new Error('Invalid property data received');
+        }
+        
+        setProperty(propertyData);
         
       } catch (err) {
         console.error('Error fetching property data:', err);
@@ -49,229 +61,108 @@ const PropertyDetail = () => {
   }, [id]);
 
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
   }
 
   if (error || !property) {
-    return <ErrorMessage message={error || 'Property not found'} onRetry={() => window.location.reload()} />;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500 text-lg mb-4">{error || 'Property not found'}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
   }
 
-  const displayImages = property.images && property.images.length > 0 
-    ? property.images 
-    : [property.image];
-
-  const truncatedDescription = property.description.length > 200 && !showAllDescription
+  // Safe property access with fallbacks
+  const truncatedDescription = property.description && property.description.length > 200 && !showAllDescription
     ? `${property.description.substring(0, 200)}...`
     : property.description;
 
+  const displayName = property.name || 'Unnamed Property';
+  const displayImage = property.image || '/assets/images/fallback-property.jpg';
+  const displayPrice = property.price || 0;
+  const displayRating = property.rating || 0;
+  const displayCategory = property.category || [];
+  const displayOffers = property.offers || { bed: 'Not specified', shower: 'Not specified', occupants: 'Not specified' };
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Header with title and actions */}
-      <div className="flex justify-between items-start mb-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">{property.title}</h1>
-          <div className="flex items-center mt-2 text-gray-600">
+    <div className="min-h-screen bg-white">
+      {/* Breadcrumb Navigation */}
+      <div className="border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center space-x-2 text-sm">
+            <Link href="/" className="text-gray-500 hover:text-gray-700 flex items-center">
+              <FaHome className="mr-1" />
+              <span>Home</span>
+            </Link>
+            <span className="text-gray-400">/</span>
+            <Link href="/property" className="text-gray-500 hover:text-gray-700">
+              Properties
+            </Link>
+            <span className="text-gray-400">/</span>
+            <span className="text-gray-800 font-medium truncate">{displayName}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Back Button */}
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <button 
+          onClick={() => router.back()}
+          className="flex items-center text-gray-600 hover:text-gray-800 mb-4"
+        >
+          <FaArrowLeft className="mr-2" />
+          Back to Properties
+        </button>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 pb-12">
+        {/* Property Header */}
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{displayName}</h1>
+          <div className="flex items-center text-gray-600">
             <FaMapMarkerAlt className="mr-2" />
-            <span>{property.address.city}, {property.address.state}, {property.address.country}</span>
-          </div>
-        </div>
-        <div className="flex space-x-4">
-          <button className="p-2 rounded-full hover:bg-gray-100">
-            <FaShare className="text-gray-600" />
-          </button>
-          <button className="p-2 rounded-full hover:bg-gray-100">
-            <FaHeart className="text-gray-600" />
-          </button>
-        </div>
-      </div>
-
-      {/* Image Gallery */}
-      <div className="relative h-96 w-full mb-8 rounded-xl overflow-hidden">
-        <Image
-          src={displayImages[activeImage]}
-          alt={property.title}
-          fill
-          className="object-cover"
-        />
-        {displayImages.length > 1 && (
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-            {displayImages.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveImage(index)}
-                className={`w-3 h-3 rounded-full ${
-                  index === activeImage ? 'bg-white' : 'bg-white bg-opacity-50'
-                }`}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Thumbnail images if multiple images exist */}
-      {displayImages.length > 1 && (
-        <div className="flex space-x-2 mb-8 overflow-x-auto pb-4">
-          {displayImages.map((image, index) => (
-            <button
-              key={index}
-              onClick={() => setActiveImage(index)}
-              className={`flex-shrink-0 w-24 h-20 rounded-lg overflow-hidden ${
-                index === activeImage ? 'ring-2 ring-blue-500' : ''
-              }`}
-            >
-              <Image
-                src={image}
-                alt={`${property.title} ${index + 1}`}
-                width={96}
-                height={80}
-                className="object-cover w-full h-full"
-              />
-            </button>
-          ))}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column - Property Details */}
-        <div className="lg:col-span-2">
-          {/* Property Header */}
-          <div className="border-b pb-6 mb-6">
-            <div className="flex justify-between items-start">
-              <div>
-                <h2 className="text-2xl font-semibold">{property.name}</h2>
-                <div className="flex items-center mt-2">
-                  <div className="flex items-center text-yellow-500">
-                    <FaStar className="mr-1" />
-                    <span className="font-semibold">{property.rating}</span>
-                  </div>
-                  <span className="mx-2">·</span>
-                  <span className="text-gray-600">{property.reviewCount} reviews</span>
-                </div>
-              </div>
-              {property.discount && (
-                <div className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">
-                  {property.discount}
-                </div>
-              )}
+            <span>
+              {property.address?.city || 'City not specified'}, 
+              {property.address?.state || 'State not specified'}, 
+              {property.address?.country || 'Country not specified'}
+            </span>
+            <span className="mx-2">•</span>
+            <div className="flex items-center text-yellow-500">
+              <FaStar className="mr-1" />
+              <span className="font-semibold">{displayRating}</span>
             </div>
           </div>
-
-          {/* Host Information */}
-          {property.host && (
-            <div className="border-b pb-6 mb-6">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 rounded-full overflow-hidden">
-                  <Image
-                    src={property.host.avatar}
-                    alt={property.host.name}
-                    width={48}
-                    height={48}
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <h3 className="font-semibold">Hosted by {property.host.name}</h3>
-                  <p className="text-gray-600 text-sm">
-                    Joined {new Date(property.host.joined).getFullYear()} · 
-                    {property.host.responseRate}% response rate
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Property Description */}
-          <div className="border-b pb-6 mb-6">
-            <h3 className="text-xl font-semibold mb-4">About this property</h3>
-            <p className="text-gray-700 leading-relaxed">
-              {truncatedDescription}
-            </p>
-            {property.description.length > 200 && (
-              <button
-                onClick={() => setShowAllDescription(!showAllDescription)}
-                className="text-blue-600 font-medium mt-2"
-              >
-                {showAllDescription ? 'Show less' : 'Read more'}
-              </button>
-            )}
-          </div>
-
-          {/* Amenities */}
-          <div className="border-b pb-6 mb-6">
-            <h3 className="text-xl font-semibold mb-4">What this place offers</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-center">
-                <FaBed className="text-gray-600 mr-3" />
-                <span>{property.offers.bed}</span>
-              </div>
-              <div className="flex items-center">
-                <FaBath className="text-gray-600 mr-3" />
-                <span>{property.offers.shower}</span>
-              </div>
-              <div className="flex items-center">
-                <FaUserFriends className="text-gray-600 mr-3" />
-                <span>Sleeps {property.offers.occupants}</span>
-              </div>
-              {property.category.map((cat, index) => (
-                <div key={index} className="flex items-center">
-                  <div className="w-5 h-5 bg-gray-200 rounded mr-3"></div>
-                  <span>{cat}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Reviews Section */}
-          <div className="mb-8">
-            <h3 className="text-xl font-semibold mb-6">
-              Reviews ({reviews.length})
-            </h3>
-            {reviews.length > 0 ? (
-              <div className="space-y-6">
-                {reviews.map((review) => (
-                  <div key={review.id} className="border-b pb-6 last:border-b-0">
-                    <div className="flex items-center mb-3">
-                      <div className="w-10 h-10 rounded-full overflow-hidden mr-3">
-                        <Image
-                          src={review.userAvatar}
-                          alt={review.userName}
-                          width={40}
-                          height={40}
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">{review.userName}</h4>
-                        <div className="flex items-center text-sm text-gray-600">
-                          <span>{new Date(review.date).toLocaleDateString()}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center mb-2">
-                      <div className="flex text-yellow-500">
-                        {[...Array(5)].map((_, i) => (
-                          <FaStar
-                            key={i}
-                            className={i < review.rating ? 'fill-current' : 'text-gray-300'}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-gray-700">{review.comment}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-600">No reviews yet.</p>
-            )}
-          </div>
         </div>
 
-        {/* Right Column - Booking Widget */}
-        <div className="lg:col-span-1">
-          <div className="sticky top-6">
-            <BookingForm property={property} />
-          </div>
+        {/* Main Image */}
+        <div className="relative h-80 md:h-96 w-full mb-6 rounded-xl overflow-hidden">
+          <Image
+            src={displayImage}
+            alt={displayName}
+            fill
+            className="object-cover"
+            priority
+            onError={(e) => {
+              // Fallback if image fails to load
+              e.currentTarget.src = '/assets/images/fallback-property.jpg';
+            }}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <BookingForm property={property}/>
         </div>
       </div>
     </div>

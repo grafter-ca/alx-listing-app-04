@@ -61,3 +61,35 @@ export interface PropertyListingProps {
   };
   discount?: string;
 }
+
+export interface BookingDetails {
+  propertyName?: string;
+  checkin: string;
+  checkout: string;
+  totalNights: number;
+  pricePerNight: number;
+  bookingFee: number;
+  customer: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    address: {
+      street: string;
+      city: string;
+      state: string;
+      zip: string;
+      country: string;
+    };
+  };
+  payment: {
+    cardNumber: string;
+    expiry: string;
+    cvv: string;
+  };
+}
+
+export interface BookingDetailsProps {
+  bookingDetails: BookingDetails;
+}
+
