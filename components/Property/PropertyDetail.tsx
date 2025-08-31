@@ -17,7 +17,8 @@ import {
 } from 'react-icons/fa';
 import { PropertyProps } from '@/interfaces';
 import BookingForm from '../booking/BookingForm';
-import OrderSummary from '../booking/OrderSummary';
+import CancellationPolicy from '../booking/CancellationPolicy';
+import ReviewSection from '../common/ReviewSection';
 
 
 const PropertyDetail = () => {
@@ -161,8 +162,14 @@ const PropertyDetail = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="py-3">
           <BookingForm property={property}/>
+        </div>
+        <div>
+            <CancellationPolicy />
+        </div>
+        <div>
+            <ReviewSection propertyId={property.id ?? ''}/>
         </div>
       </div>
     </div>
