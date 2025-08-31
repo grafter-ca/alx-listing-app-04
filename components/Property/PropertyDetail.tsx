@@ -41,7 +41,6 @@ const PropertyDetail = () => {
         // Fetch property details
         const response = await axios.get(`/api/properties/${id}`);
         
-        // Handle different response formats
         const propertyData = response.data.data || response.data;
         
         if (!propertyData) {

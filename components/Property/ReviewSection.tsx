@@ -73,7 +73,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ propertyId }) => {
   };
 
   // Group reviews by rating
-  const ratingDistribution = [0, 0, 0, 0, 0]; // 1-5 stars
+  const ratingDistribution = [0, 0, 0, 0, 0]; 
   reviews.forEach(review => {
     if (review.rating >= 1 && review.rating <= 5) {
       ratingDistribution[5 - review.rating]++;
@@ -98,7 +98,6 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ propertyId }) => {
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <h2 className="text-2xl font-semibold mb-6">Guest Reviews</h2>
 
-      {/* Rating Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="text-center">
           <div className="text-4xl font-bold text-gray-900">{averageRating}</div>
@@ -143,7 +142,6 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ propertyId }) => {
         </div>
       )}
 
-      {/* Write Review Button */}
       {!showReviewForm && (
         <div className="mb-6">
           <button
