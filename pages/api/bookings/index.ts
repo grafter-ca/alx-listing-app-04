@@ -3,12 +3,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { mockProperties, mockBookings } from "@/lib/mockData";
 import { Booking } from "@/types/api";
 
-export const BookingHandler = (req: NextApiRequest, res: NextApiResponse) =>{
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     if(req.method === 'GET'){
-    return res.status(202).json({message : 'our booking is working well'})
-  }
+        return res.json({message: 'Our Booking is working well'})
+    }
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 
@@ -57,6 +57,3 @@ export const BookingHandler = (req: NextApiRequest, res: NextApiResponse) =>{
     return res.status(500).json({ error: 'Failed to create booking' });
   }
 }
-
-
-
