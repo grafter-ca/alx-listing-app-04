@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaStar, FaUser, FaRegSmile, FaRegFrown, FaRegMeh } from 'react-icons/fa';
-import ReviewForm from './ReviewForm';
+import ReviewForm from '../common/ReviewForm';
 
 interface Review {
   id: string;

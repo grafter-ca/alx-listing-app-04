@@ -18,7 +18,7 @@ import {
 import { PropertyProps } from '@/interfaces';
 import BookingForm from '../booking/BookingForm';
 import CancellationPolicy from '../booking/CancellationPolicy';
-import ReviewSection from '../common/ReviewSection';
+import ReviewSection from './ReviewSection';
 
 
 const PropertyDetail = () => {
