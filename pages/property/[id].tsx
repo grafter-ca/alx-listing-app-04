@@ -16,7 +16,7 @@ import {
   FaArrowLeft
 } from 'react-icons/fa';
 import { PropertyProps } from '@/interfaces';
-import PropertyDetail from '@/components/Property/PropertyDetail';
+import PropertyDetail from '@/components/property/PropertyDetail';
 
 
 const PropertyDetailPage = () => {
