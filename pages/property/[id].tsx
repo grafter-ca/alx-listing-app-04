@@ -2,19 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import Image from 'next/image';
-import Link from 'next/link';
-import { 
-  FaStar, 
-  FaBed, 
-  FaBath, 
-  FaUserFriends, 
-  FaMapMarkerAlt, 
-  FaHeart, 
-  FaShare, 
-  FaHome,
-  FaArrowLeft
-} from 'react-icons/fa';
+
 import { PropertyProps } from '@/interfaces';
 import PropertyDetail from '@/components/property/PropertyDetail';
 
@@ -26,8 +14,6 @@ const PropertyDetailPage = () => {
   const [property, setProperty] = useState<PropertyProps | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showAllDescription, setShowAllDescription] = useState(false);
-
   useEffect(() => {
     const fetchPropertyData = async () => {
       if (!id) return;
@@ -82,18 +68,6 @@ const PropertyDetailPage = () => {
       </div>
     );
   }
-
-  // Safe property access with fallbacks
-  const truncatedDescription = property.description && property.description.length > 200 && !showAllDescription
-    ? `${property.description.substring(0, 200)}...`
-    : property.description;
-
-  const displayName = property.name || 'Unnamed Property';
-  const displayImage = property.image || '/assets/images/fallback-property.jpg';
-  const displayPrice = property.price || 0;
-  const displayRating = property.rating || 0;
-  const displayCategory = property.category || [];
-  const displayOffers = property.offers || { bed: 'Not specified', shower: 'Not specified', occupants: 'Not specified' };
 
   return (
     <div className="min-h-screen bg-white">

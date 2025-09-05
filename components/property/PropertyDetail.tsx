@@ -23,7 +23,6 @@ const PropertyDetail = () => {
   const [property, setProperty] = useState<PropertyProps | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showAllDescription, setShowAllDescription] = useState(false);
 
   useEffect(() => {
     const fetchPropertyData = async () => {
@@ -80,16 +79,10 @@ const PropertyDetail = () => {
   }
 
   // Safe property access with fallbacks
-  const truncatedDescription = property.description && property.description.length > 200 && !showAllDescription
-    ? `${property.description.substring(0, 200)}...`
-    : property.description;
 
   const displayName = property.name || 'Unnamed Property';
   const displayImage = property.image || '/assets/images/fallback-property.jpg';
-  const displayPrice = property.price || 0;
   const displayRating = property.rating || 0;
-  const displayCategory = property.category || [];
-  const displayOffers = property.offers || { bed: 'Not specified', shower: 'Not specified', occupants: 'Not specified' };
 
   return (
     <div className="min-h-screen bg-white">

@@ -20,6 +20,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({property,key}) => {
                     alt={property.name}
                     width={400}
                     height={250}
+                    key={key}
                     className="rounded-2xl object-cover"
                 />
             </div>

@@ -1,8 +1,9 @@
 // components/reviews/ReviewSection.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaStar, FaUser, FaRegSmile, FaRegFrown, FaRegMeh } from 'react-icons/fa';
 import ReviewForm from '../common/ReviewForm';
+import Image from 'next/image';
 
 interface Review {
   id: string;
@@ -27,33 +28,34 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ propertyId }) => {
   const [totalReviews, setTotalReviews] = useState(0);
   const [showReviewForm, setShowReviewForm] = useState(false);
 
-  useEffect(() => {
-    fetchReviews();
-  }, [propertyId]);
+const fetchReviews = useCallback(async () => {
+  if (!propertyId) return;
 
-  const fetchReviews = async () => {
-    if (!propertyId) return;
-    
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const response = await axios.get(`/api/properties/${propertyId}/reviews`);
-      
-      if (response.data.success) {
-        setReviews(response.data.reviews || []);
-        setAverageRating(response.data.averageRating || 0);
-        setTotalReviews(response.data.total || 0);
-      } else {
-        throw new Error(response.data.error || 'Failed to load reviews');
-      }
-    } catch (err) {
-      console.error('Error fetching reviews:', err);
-      setError('Failed to load reviews. Please try again.');
-    } finally {
-      setLoading(false);
+  try {
+    setLoading(true);
+    setError(null);
+
+    const response = await axios.get(`/api/properties/${propertyId}/reviews`);
+
+    if (response.data.success) {
+      setReviews(response.data.reviews || []);
+      setAverageRating(response.data.averageRating || 0);
+      setTotalReviews(response.data.total || 0);
+    } else {
+      throw new Error(response.data.error || 'Failed to load reviews');
     }
-  };
+  } catch (err) {
+    console.error('Error fetching reviews:', err);
+    setError('Failed to load reviews. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+}, [propertyId]); //dependency
+
+useEffect(() => {
+  fetchReviews();
+}, [fetchReviews]); //call our function here
+
 
   const handleSubmitReview = async (reviewData: { rating: number; comment: string }) => {
     try {
@@ -173,7 +175,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ propertyId }) => {
                 <div className="flex items-center">
                   <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
                     {review.userAvatar ? (
-                      <img
+                      <Image
                         src={review.userAvatar}
                         alt={review.userName}
                         className="w-10 h-10 rounded-full object-cover"

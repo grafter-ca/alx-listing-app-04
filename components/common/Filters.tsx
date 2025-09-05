@@ -11,7 +11,7 @@ const Filters: React.FC = () => {
     const [showSortDropdown, setShowSortDropdown] = useState(false);
 
     return (
-        <section className="flex justify-between px-8">
+        <section className="flex justify-between px-3 lg:px-8">
             {/* Left: Filter Pills */}
             <div className="block w-48 lg:w-fit lg:flex space-x-2 space-y-3 lg:space-y-0  ">
                 <button

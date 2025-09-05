@@ -34,7 +34,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ property }) => {
     const { name, value } = e.target;
 
     setFormData((prev) => {
-      let updated = { ...prev, [name]: value };
+      const updated = { ...prev, [name]: value };
 
       // calculate nights automatically
       if (name === "checkin" || name === "checkout") {
@@ -99,6 +99,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ property }) => {
       console.log(response.data)
     } catch (error) {
       setError("Failed to submit booking.");
+      console.log(error)
     } finally {
       setLoading(false);
     }

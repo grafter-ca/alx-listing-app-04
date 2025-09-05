@@ -1,6 +1,7 @@
 // pages/api/properties/[id]/reviews.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { mockReviews } from '@/lib/mockData';
+import { Review } from '@/types/api';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
@@ -112,7 +113,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 // Helper function to calculate average rating
-function calculateAverageRating(reviews: any[]) {
+function calculateAverageRating(reviews: Review[]) {
   if (reviews.length === 0) return 0;
   const total = reviews.reduce((sum, review) => sum + review.rating, 0);
   return Math.round((total / reviews.length) * 10) / 10;

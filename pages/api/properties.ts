@@ -1,7 +1,6 @@
 // pages/api/properties.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { mockProperties } from '@/lib/mockData';
-import { PROPERTYLISTINGSAMPLE } from '@/constants';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {

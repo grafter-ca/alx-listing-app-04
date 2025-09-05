@@ -29,10 +29,10 @@ const Header: React.FC = () => {
   return (
     <header className="w-full bg-white shadow-xs">
       {/* Top info bar */}
-      <div className="bg-teal-600 text-white flex items-center justify-center py-2 text-sm">
+      <div className="bg-teal-600 text-white blocklg:flex items-center justify-center py-2 text-sm">
         <span className="mr-2">👜</span>
         Overseas trip? Get the latest information on travel guides
-        <button className="ml-4 px-3 py-1 bg-black text-white rounded-full text-xs">
+        <button className="ml-4 px-3 py-1 bg-black text-white rounded-full text-xs mt-2 lg:mt-0">
           More Info
         </button>
       </div>

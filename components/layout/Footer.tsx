@@ -57,7 +57,7 @@ const Footer: React.FC = () => {
           Some hotel requires you to cancel more than 24 hours before check-in. Details{' '}
           <a href="#" className="text-[#2ec4b6] underline hover:text-[#20b2aa]">here</a>
         </div>
-        <div className="flex flex-wrap gap-x-8 gap-y-2 text-[#e0e0e0]">
+        <div className="flex flex-wrap gap-x-2 gap-y-2 text-[#e0e0e0]">
           <a href="#" className="hover:underline">Terms of Service</a>
           <a href="#" className="hover:underline">Policy service</a>
           <a href="#" className="hover:underline">Cookies Policy</a>
